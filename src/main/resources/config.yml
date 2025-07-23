@@ -1,0 +1,4 @@
+shop:
+  earn_percentage:
+    enabled: false
+    percentage: 100

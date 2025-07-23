@@ -1,0 +1,6 @@
+name: SmartSpawner-Addon
+version: '${version}'
+main: it.alessandrozap.smartspawneraddon.SmartSpawnerAddon
+api-version: '1.21'
+authors: [AlessandroZap]
+depend: [SmartSpawner]

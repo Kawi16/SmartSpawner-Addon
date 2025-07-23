@@ -1,0 +1,9 @@
+worlds:
+  world:
+    break:
+      enabled: true
+      silk-touch:
+        required: true
+        level: 1
+    place: true
+    stack: true
