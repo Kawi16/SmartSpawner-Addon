@@ -2,3 +2,53 @@ shop:
   earn_percentage:
     enabled: false
     percentage: 100
+
+hooks:
+  enchants: # Require ExcellentEnchants
+    enabled: false
+    required:
+      - SILK_SPAWNER
+  shopgui: # Require ShopGUI+
+    enabled: false
+    boost-permission: true
+  coreprotect:
+    enabled: false
+  discord:
+    webhooks:
+      enabled: false
+      url: ""
+      title: "Spawner %action%"
+      lines:
+        - "**Player:** %player%"
+        - "**Action:** %action%"
+        - "**Location:** %world% %x% %y% %z%"
+      actions:
+        break:
+          enabled: true
+          color: "E53935"
+        eggchange:
+          enabled: true
+          color: "9C27B0"
+        expclaim:
+          enabled: true
+          color: "9C27B0"
+        explode:
+          enabled: true
+          color: "FF5722"
+        place:
+          enabled: true
+          color: "4CAF50"
+        remove:
+          enabled: true
+          color: "607D8B"
+        sell:
+          enabled: true
+          color: "9C27B0"
+        stack:
+          enabled: true
+          color: "FFC107"
+
+placeholders:
+  force-small-caps: false
+
+version: 1

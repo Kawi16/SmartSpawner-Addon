@@ -1,11 +1,44 @@
 package it.alessandrozap.smartspawneraddon;
 
+import it.alessandrozap.smartspawneraddon.config.Settings;
 import it.alessandrozap.utilsapi.managers.messages.Locale;
+import it.alessandrozap.utilsapi.utils.Utility;
+import net.j4c0b3y.api.config.StaticConfig;
+import net.j4c0b3y.api.config.message.Message;
+import org.bukkit.command.CommandSender;
 
-public class LocaleAddon {
-    public static Locale RELOADED_CONFIRM;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
-    public static void init() {
-        RELOADED_CONFIRM = new Locale("files-reloaded");
+public class LocaleAddon extends StaticConfig {
+
+    public LocaleAddon(SmartSpawnerAddon plugin) {
+        super(new File(plugin.getDataFolder(), "messages.yml"), plugin.getConfigHandler());
+    }
+
+    public static Message PREFIX = Message.of(
+            "&#5A5A5A[&#18963Fꜱ&#199941ᴍ&#1B9C43ᴀ&#1C9F45ʀ&#1DA247ᴛ&#1FA448ꜱ&#20A74Aᴘ&#21AA4Cᴀ&#23AD4Eᴡ&#24B050ɴ&#27B251ᴇ&#2AB552ʀ&#2DB753ꜱ &#33BC55ᴀ&#36BE56ᴅ&#39C057ᴅ&#3CC358ᴏ&#3FC559ɴ&#5A5A5A] "
+    );
+    public static Message FILES_RELOAD = Message.of(
+            "&#1ED451ᴘ&#1ED450ʟ&#1DD54Fᴜ&#1DD54Eɢ&#1DD54Eɪ&#1DD54Dɴ &#1CD64Bʀ&#1CD64Aᴇ&#1BD749ʟ&#1BD748ᴏ&#1BD748ᴀ&#1BD747ᴅ&#1AD846ᴇ&#1AD845ᴅ &#1DD847ꜱ&#1FD847ᴜ&#20D848ᴄ&#22D849ᴄ&#23D84Aᴇ&#25D84Aꜱ&#26D84Bꜱ&#28D84Cꜰ&#29D84Dᴜ&#2BD84Dʟ&#2CD84Eʟ&#2ED84Fʏ"
+    );
+    public static Message ENCHANTS_REQUIRED = Message.of(
+            "&#FA4C4Cᴇ&#FA4C4Cɴ&#F94D4Dᴄ&#F94D4Dʜ&#F94E4Eᴀ&#F94E4Eɴ&#F84E4Eᴛ&#F84F4Fꜱ &#F75050%list% &#F65151ʀ&#F65252ᴇ&#F65252ǫ&#F55252ᴜ&#F55353ɪ&#F55353ʀ&#F45454ᴇ&#F45454ᴅ"
+    );
+
+    public static void sendMessage(CommandSender sender, Message msg, HashMap<String, String> mapPlaceholders) {
+        for(Map.Entry<String, String> entry : mapPlaceholders.entrySet()) {
+            String value = Settings.Placeholders.FORCE_SMALL_CAPS ?
+                    Utility.toSmallCaps(entry.getValue()) :
+                    entry.getValue();
+            msg = msg.replace(entry.getKey(), value);
+        }
+        msg.replace("%prefix%", SmartSpawnerAddon.getInstance().getPrefix());
+        msg.map(Locale::translate).send(sender::sendMessage);
+    }
+
+    public static void sendMessage(CommandSender sender, Message msg) {
+        msg.replace("%prefix%", SmartSpawnerAddon.getInstance().getPrefix()).map(Locale::translate).send(sender::sendMessage);
     }
 }
