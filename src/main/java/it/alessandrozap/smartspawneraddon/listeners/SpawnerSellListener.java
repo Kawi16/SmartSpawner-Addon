@@ -1,15 +1,17 @@
 package it.alessandrozap.smartspawneraddon.listeners;
 
 import github.nighter.smartspawner.api.events.SpawnerSellEvent;
-import it.alessandrozap.smartspawneraddon.config.ConfigKeys;
 import it.alessandrozap.utilsapi.managers.listeners.ListenerImpl;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+
+import static it.alessandrozap.smartspawneraddon.config.Settings.Shop;
 
 public class SpawnerSellListener implements ListenerImpl {
-    @EventHandler
+    @EventHandler (priority = EventPriority.LOW)
     private void onSpawnerSell(SpawnerSellEvent e) {
-        if(!ConfigKeys.SHOP_PERCENTAGE_ENABLED.getBoolean()) return;
-        double amount = e.getMoneyAmount() * ConfigKeys.SHOP_PERCENTAGE_PERCENTAGE.getInt() / 100;
+        if(!Shop.Earn_Percentage.enabled) return;
+        double amount = e.getMoneyAmount() * Shop.Earn_Percentage.percentage / 100;
         e.setMoneyAmount(amount);
     }
 }
