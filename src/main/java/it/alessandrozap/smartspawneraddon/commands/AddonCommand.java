@@ -2,11 +2,9 @@ package it.alessandrozap.smartspawneraddon.commands;
 
 import it.alessandrozap.smartspawneraddon.LocaleAddon;
 import it.alessandrozap.smartspawneraddon.SmartSpawnerAddon;
-import it.alessandrozap.smartspawneraddon.utils.Utils;
 import it.alessandrozap.utilsapi.annotations.commands.Command;
 import it.alessandrozap.utilsapi.annotations.commands.MainCommand;
 import it.alessandrozap.utilsapi.annotations.commands.SubCommand;
-import it.alessandrozap.utilsapi.managers.messages.Locale;
 import org.bukkit.command.CommandSender;
 
 @Command(name = "smartspawner-addon",
@@ -25,9 +23,8 @@ public class AddonCommand {
             permission = "smartspawner-addon.command.reload",
             allowConsole = true)
     public void onReload(CommandSender sender, String[] args) {
-        SmartSpawnerAddon.getInstance().getConfigFile().reload();
-        SmartSpawnerAddon.getInstance().getWorldsFile().reload();
-        Utils.loadWorlds();
-        LocaleAddon.RELOADED_CONFIRM.send(sender, true);
+        SmartSpawnerAddon.getInstance().getConfigSettings().load();
+        SmartSpawnerAddon.getInstance().getSettingsWorld().load();
+        LocaleAddon.sendMessage(sender, LocaleAddon.FILES_RELOAD);
     }
 }
