@@ -12,6 +12,7 @@ import it.alessandrozap.utilsapi.logger.Logger;
 import it.alessandrozap.utilsapi.managers.messages.Locale;
 import lombok.Getter;
 import net.j4c0b3y.api.config.platform.bukkit.BukkitConfigHandler;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SmartSpawnerAddon extends JavaPlugin {
@@ -66,8 +67,14 @@ public final class SmartSpawnerAddon extends JavaPlugin {
             Logger.log("If you see this, open an issue on GitHub - https://github.com/Kawi16/UtilsAPI", LogType.INFO);
         }
 
+        setupBStats();
+
         Logger.log(String.format("Loaded %d worlds", SettingsWorld.worlds.size()), LogType.INFO);
         Logger.log("SmartSpawner Addon enabled successfully", LogType.INFO);
+    }
+
+    private void setupBStats() {
+        new Metrics(this, 27327);
     }
 
     @Override

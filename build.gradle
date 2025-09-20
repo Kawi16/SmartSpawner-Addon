@@ -36,6 +36,7 @@ dependencies {
     implementation 'com.github.brcdev-minecraft:shopgui-api:3.0.0'
     compileOnly("net.coreprotect:coreprotect:23.0")
     shadow("net.j4c0b3y:ConfigAPI-bukkit:1.2.6")
+    shadow("org.bstats:bstats-bukkit:3.0.2")
 
     compileOnly("org.projectlombok:lombok:1.18.38")
     annotationProcessor("org.projectlombok:lombok:1.18.38")
@@ -68,6 +69,7 @@ tasks {
         archiveClassifier.set('')
         configurations = [project.configurations.getByName('shadow')]
         relocate("it.alessandrozap.utilsapi", "it.alessandrozap.smartspawneraddon.utilsapi")
+        relocate("org.bstats", "it.alessandrozap.smartspawneraddon.bstats")
         manifest {
             attributes["paperweight-mappings-namespace"] = "mojang"
         }
