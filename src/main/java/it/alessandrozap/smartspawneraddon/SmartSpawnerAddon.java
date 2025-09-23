@@ -6,6 +6,7 @@ import it.alessandrozap.smartspawneraddon.config.providers.ActionProvider;
 import it.alessandrozap.smartspawneraddon.config.providers.WorldProvider;
 import it.alessandrozap.smartspawneraddon.objects.Action;
 import it.alessandrozap.smartspawneraddon.objects.World;
+import it.alessandrozap.smartspawneraddon.utils.versioning.UpdateChecker;
 import it.alessandrozap.utilsapi.UtilsAPI;
 import it.alessandrozap.utilsapi.logger.LogType;
 import it.alessandrozap.utilsapi.logger.Logger;
@@ -28,6 +29,8 @@ public final class SmartSpawnerAddon extends JavaPlugin {
     private LocaleAddon localeAddon;
     @Getter
     private String prefix;
+    @Getter
+    private UpdateChecker updateChecker;
 
     @Getter
     private UtilsAPI utilsAPI;
@@ -67,6 +70,7 @@ public final class SmartSpawnerAddon extends JavaPlugin {
             Logger.log("If you see this, open an issue on GitHub - https://github.com/Kawi16/UtilsAPI", LogType.INFO);
         }
 
+        updateChecker = new UpdateChecker(this);
         setupBStats();
 
         Logger.log(String.format("Loaded %d worlds", SettingsWorld.worlds.size()), LogType.INFO);
