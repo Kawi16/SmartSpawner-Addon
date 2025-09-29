@@ -21,9 +21,7 @@ import java.util.List;
 public class DiscordWebhook {
 
     public static void sendEmbed(Player player, Location location, ActionType type) {
-        Logger.log("0", LogType.INFO);
         if(!Settings.Hooks.Discord.Webhooks.enabled) return;
-        Logger.log("1", LogType.INFO);
         String webhookURL = Discord.Webhooks.url;
         if(webhookURL == null || webhookURL.isEmpty()) return;
         if(!Discord.Webhooks.actions.containsKey(type.name().toLowerCase())) return;
