@@ -34,6 +34,7 @@ public class CoreProtectHook implements ListenerImpl {
                 loc,
                 loc.getBlock().getType(),
                 blockData);
+        logAction(e.getPlayer(), e.getLocation(), e.getQuantity(), ActionType.PLACE);
     }
 
     @EventHandler (priority = EventPriority.MONITOR)
@@ -45,7 +46,7 @@ public class CoreProtectHook implements ListenerImpl {
     @EventHandler (priority = EventPriority.MONITOR)
     public void onSpawnerStack(SpawnerStackEvent e) {
         if(!check(e)) return;
-        logAction(e.getPlayer(), e.getLocation(), e.getNewQuantity() - e.getOldQuantity(), ActionType.PLACE);
+        logAction(e.getPlayer(), e.getLocation(), e.getNewQuantity() - e.getOldQuantity(), ActionType.STACK);
     }
 
     @EventHandler (priority = EventPriority.MONITOR)

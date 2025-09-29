@@ -1,6 +1,5 @@
 package it.alessandrozap.smartspawneraddon.discord;
 
-import github.nighter.smartspawner.api.events.SpawnerEvent;
 import it.alessandrozap.smartspawneraddon.SmartSpawnerAddon;
 import it.alessandrozap.smartspawneraddon.config.Settings;
 import it.alessandrozap.smartspawneraddon.objects.ActionType;
@@ -22,8 +21,10 @@ import java.util.List;
 public class DiscordWebhook {
 
     public static void sendEmbed(Player player, Location location, ActionType type) {
+        Logger.log("0", LogType.INFO);
         if(!Settings.Hooks.Discord.Webhooks.enabled) return;
-        String webhookURL = Discord.Webhooks.title;
+        Logger.log("1", LogType.INFO);
+        String webhookURL = Discord.Webhooks.url;
         if(webhookURL == null || webhookURL.isEmpty()) return;
         if(!Discord.Webhooks.actions.containsKey(type.name().toLowerCase())) return;
         new BukkitRunnable() {
@@ -53,9 +54,9 @@ public class DiscordWebhook {
                     String jsonPayload = "{"
                             + "\"embeds\": ["
                             + "  {"
-                            + "    \"title\": \"" + title + "\","
+                            + "    \"title\": \"" + escapeJson(title) + "\","
                             + "    \"description\": \"" + escapeJson(String.join("\n", description)) + "\","
-                            + "    \"color\": " + Discord.Webhooks.actions.get(type.name().toLowerCase()).getColor()
+                            + "    \"color\": " + Integer.parseInt(Discord.Webhooks.actions.get(type.name().toLowerCase()).getColor(), 16)
                             + "  }"
                             + "]"
                             + "}";
