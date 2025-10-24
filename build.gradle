@@ -29,7 +29,7 @@ dependencies {
     compileOnly "io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT"
 
     shadow("it.alessandrozap.api:UtilsAPI:1.0")
-    implementation files("libs/SmartSpawner-1.5.2.jar")
+    implementation files("libs/SmartSpawner-1.5.4.jar")
     compileOnly("su.nightexpress.excellentenchants:Core:5.2.1") {
         exclude group: "org.spigotmc"
     }
