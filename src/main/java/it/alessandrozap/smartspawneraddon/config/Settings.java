@@ -45,7 +45,11 @@ public class Settings extends StaticConfig {
         }
         @Comment("Hook to ShopGUI+")
         public static class ShopGUI {
-            public static boolean enabled = false;
+            @Getter private static boolean enabled = false;
+        }
+        @Comment("Hook to EconomyShopGUIPlus")
+        public static class EconomyShopGUIPlus {
+            @Getter private static boolean enabled = false;
         }
         @Comment("Log with CoreProtect the spawners action")
         public static class CoreProtect {

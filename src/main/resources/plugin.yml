@@ -4,4 +4,4 @@ main: it.alessandrozap.smartspawneraddon.SmartSpawnerAddon
 api-version: '1.21'
 authors: [AlessandroZap]
 depend: [SmartSpawner]
-softdepend: [CoreProtect, ExcellentEnchants, ShopGUIPlus]
+softdepend: [CoreProtect, ExcellentEnchants, ShopGUIPlus, EconomyShopGUI, EconomyShopGUI-Premium]

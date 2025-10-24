@@ -34,6 +34,7 @@ dependencies {
         exclude group: "org.spigotmc"
     }
     implementation 'com.github.brcdev-minecraft:shopgui-api:3.0.0'
+    implementation 'com.github.Gypopo:EconomyShopGUI-API:1.9.0'
     compileOnly("net.coreprotect:coreprotect:23.0")
     shadow("net.j4c0b3y:ConfigAPI-bukkit:1.2.6")
     shadow("org.bstats:bstats-bukkit:3.0.2")

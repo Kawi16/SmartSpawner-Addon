@@ -4,6 +4,7 @@ import it.alessandrozap.smartspawneraddon.config.Settings;
 import it.alessandrozap.smartspawneraddon.config.SettingsWorld;
 import it.alessandrozap.smartspawneraddon.config.providers.ActionProvider;
 import it.alessandrozap.smartspawneraddon.config.providers.WorldProvider;
+import it.alessandrozap.smartspawneraddon.hooks.ESGUIHook;
 import it.alessandrozap.smartspawneraddon.objects.Action;
 import it.alessandrozap.smartspawneraddon.objects.World;
 import it.alessandrozap.smartspawneraddon.utils.versioning.UpdateChecker;
@@ -14,6 +15,7 @@ import it.alessandrozap.utilsapi.managers.messages.Locale;
 import lombok.Getter;
 import net.j4c0b3y.api.config.platform.bukkit.BukkitConfigHandler;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SmartSpawnerAddon extends JavaPlugin {
@@ -70,6 +72,9 @@ public final class SmartSpawnerAddon extends JavaPlugin {
             Logger.log("If you see this, open an issue on GitHub - https://github.com/Kawi16/UtilsAPI", LogType.INFO);
         }
 
+        if(Settings.Hooks.EconomyShopGUIPlus.isEnabled() && (checkESGUI("EconomyShopGUI") || checkESGUI("EconomyShopGUI-Premium")))
+            Bukkit.getPluginManager().registerEvents(new ESGUIHook(), this);
+
         updateChecker = new UpdateChecker(this);
         setupBStats();
 
@@ -79,6 +84,13 @@ public final class SmartSpawnerAddon extends JavaPlugin {
 
     private void setupBStats() {
         new Metrics(this, 27327);
+    }
+
+    private boolean checkESGUI(String version) {
+        if(Bukkit.getPluginManager().getPlugin(version) != null) {
+            return Bukkit.getPluginManager().getPlugin(version).isEnabled();
+        }
+        return false;
     }
 
     @Override
