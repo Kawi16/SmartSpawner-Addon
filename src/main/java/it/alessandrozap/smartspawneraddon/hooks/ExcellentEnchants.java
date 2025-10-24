@@ -22,9 +22,9 @@ public class ExcellentEnchants implements ListenerImpl {
 
     @EventHandler
     public void onBreak(SpawnerPlayerBreakEvent e) {
-        if(!Settings.Hooks.Enchants.enabled) return;
+        if(!Settings.Hooks.Enchants.isEnabled()) return;
         boolean b = true;
-        List<String> list = Settings.Hooks.Enchants.required;
+        List<String> list = Settings.Hooks.Enchants.getRequired();
         for(int i = 0; i < list.size() && b; i++) {
             String s = list.get(i);
             CustomEnchantment custom = EnchantRegistry.getById(s.trim().toUpperCase());

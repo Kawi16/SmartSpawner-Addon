@@ -2,6 +2,7 @@ package it.alessandrozap.smartspawneraddon.config;
 
 import it.alessandrozap.smartspawneraddon.SmartSpawnerAddon;
 import it.alessandrozap.smartspawneraddon.objects.Action;
+import lombok.Getter;
 import net.j4c0b3y.api.config.StaticConfig;
 
 import java.io.File;
@@ -18,8 +19,8 @@ public class Settings extends StaticConfig {
     public static class Shop {
         @Comment("Set the earn percentage of items sell in the spawners")
         public static class Earn_Percentage {
-            public static boolean enabled = false;
-            public static int percentage = 100;
+            @Getter private static boolean enabled = false;
+            @Getter private static int percentage = 100;
         }
     }
 
@@ -36,8 +37,9 @@ public class Settings extends StaticConfig {
     public static class Hooks {
         @Comment("Hook to ExcellentEnchants")
         public static class Enchants {
-            public static boolean enabled = false;
-            public static List<String> required = new ArrayList<>(List.of(
+            @Getter private static boolean enabled = false;
+            @Getter
+            private static List<String> required = new ArrayList<>(List.of(
                 "SILK_SPAWNER"
             ));
         }
@@ -47,26 +49,31 @@ public class Settings extends StaticConfig {
         }
         @Comment("Log with CoreProtect the spawners action")
         public static class CoreProtect {
-            public static boolean enabled = false;
+            @Getter private static boolean enabled = false;
         }
 
         @Comment("Discord Hook")
         public static class Discord {
             public static class Webhooks {
-                public static boolean enabled = false;
+                @Getter
+                private static boolean enabled = false;
                 @Comment("Webhook url")
-                public static String url = "";
+                @Getter
+                private static String url = "";
                 @Comment({
                         "Webhook title",
                         "Use %action% as placeholder for get the action name"
                 })
-                public static String title = "Spawner %action%";
-                public static List<String> lines = new ArrayList<>(List.of(
+                @Getter
+                private static String title = "Spawner %action%";
+                @Getter
+                private static List<String> lines = new ArrayList<>(List.of(
                         "**Player:** %player%",
                         "**Action:** %action%",
                         "**Location:** %world% %x% %y% %z%"
                 ));
-                public static HashMap<String, Action> actions = new HashMap<>() {{
+                @Getter
+                private static HashMap<String, Action> actions = new HashMap<>() {{
                     put("break", new Action(true, "E53935"));
                     put("eggchange", new Action(true, "9C27B0"));
                     put("expclaim", new Action(true, "9C27B0"));
@@ -81,6 +88,7 @@ public class Settings extends StaticConfig {
     }
     public static class Placeholders {
         @Comment("Force small caps usage in addon placeholders")
-        public static boolean FORCE_SMALL_CAPS = false;
+        @Getter
+        private static boolean FORCE_SMALL_CAPS = false;
     }
 }

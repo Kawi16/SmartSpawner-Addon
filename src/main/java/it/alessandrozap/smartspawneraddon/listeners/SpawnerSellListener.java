@@ -10,8 +10,8 @@ import static it.alessandrozap.smartspawneraddon.config.Settings.Shop;
 public class SpawnerSellListener implements ListenerImpl {
     @EventHandler (priority = EventPriority.LOW)
     private void onSpawnerSell(SpawnerSellEvent e) {
-        if(!Shop.Earn_Percentage.enabled) return;
-        double amount = e.getMoneyAmount() * Shop.Earn_Percentage.percentage / 100;
+        if(!Shop.Earn_Percentage.isEnabled()) return;
+        double amount = e.getMoneyAmount() * Shop.Earn_Percentage.getPercentage() / 100;
         e.setMoneyAmount(amount);
     }
 }

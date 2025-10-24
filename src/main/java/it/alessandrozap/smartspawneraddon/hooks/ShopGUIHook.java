@@ -18,7 +18,7 @@ public class ShopGUIHook implements ListenerImpl {
     }
     @EventHandler (priority = EventPriority.LOWEST)
     private void onSpawnerSell(SpawnerSellEvent e) {
-        if(!Settings.Hooks.ShopGUI.enabled) return;
+        if(!Settings.Hooks.ShopGUI.isEnabled()) return;
         try {
             double total = 0.0;
             for(ItemStack iS : e.getItems()) {

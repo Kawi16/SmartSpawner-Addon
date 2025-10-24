@@ -118,7 +118,7 @@ public class CoreProtectHook implements ListenerImpl {
     }
 
     private <T extends Event & Cancellable> boolean check(T e) {
-        if (!CoreProtect.getInstance().isEnabled() || !Settings.Hooks.CoreProtect.enabled) return false;
+        if (!CoreProtect.getInstance().isEnabled() || !Settings.Hooks.CoreProtect.isEnabled()) return false;
         return !e.isCancelled();
     }
 }

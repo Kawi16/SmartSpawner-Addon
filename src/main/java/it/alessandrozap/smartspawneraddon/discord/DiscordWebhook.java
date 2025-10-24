@@ -21,17 +21,17 @@ import java.util.List;
 public class DiscordWebhook {
 
     public static void sendEmbed(Player player, Location location, ActionType type) {
-        if(!Settings.Hooks.Discord.Webhooks.enabled) return;
-        String webhookURL = Discord.Webhooks.url;
+        if(!Settings.Hooks.Discord.Webhooks.isEnabled()) return;
+        String webhookURL = Discord.Webhooks.getUrl();
         if(webhookURL == null || webhookURL.isEmpty()) return;
-        if(!Discord.Webhooks.actions.containsKey(type.name().toLowerCase())) return;
+        if(!Discord.Webhooks.getActions().containsKey(type.name().toLowerCase())) return;
         new BukkitRunnable() {
             public void run() {
                 HttpsURLConnection connection = null;
                 try {
                     List<String> description = new ArrayList<>();
 
-                    for (String str : Discord.Webhooks.lines) {
+                    for (String str : Discord.Webhooks.getLines()) {
                         description.add(str.replaceAll("%player%", player != null ? player.getName() : "Unknown")
                                 .replaceAll("%action%", type.name())
                                 .replaceAll("%world%", location.getWorld().getName())
@@ -41,20 +41,20 @@ public class DiscordWebhook {
                         );
                     }
 
-                    URL url = new URL(Discord.Webhooks.url);
+                    URL url = new URL(Discord.Webhooks.getUrl());
                     connection = (HttpsURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
                     connection.setDoOutput(true);
 
-                    String title = Discord.Webhooks.title.replaceAll("%action%", type.name());
+                    String title = Discord.Webhooks.getTitle().replaceAll("%action%", type.name());
 
                     String jsonPayload = "{"
                             + "\"embeds\": ["
                             + "  {"
                             + "    \"title\": \"" + escapeJson(title) + "\","
                             + "    \"description\": \"" + escapeJson(String.join("\n", description)) + "\","
-                            + "    \"color\": " + Integer.parseInt(Discord.Webhooks.actions.get(type.name().toLowerCase()).getColor(), 16)
+                            + "    \"color\": " + Integer.parseInt(Discord.Webhooks.getActions().get(type.name().toLowerCase()).getColor(), 16)
                             + "  }"
                             + "]"
                             + "}";
