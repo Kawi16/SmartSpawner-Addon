@@ -3,6 +3,10 @@ shop:
     enabled: false
     percentage: 100
 
+settings:
+  limits:
+    default: -1
+
 hooks:
   enchants: # Require ExcellentEnchants
     enabled: false

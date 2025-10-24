@@ -26,10 +26,13 @@ public class LocaleAddon extends StaticConfig {
     public static Message ENCHANTS_REQUIRED = Message.of(
             "&#FA4C4Cᴇ&#FA4C4Cɴ&#F94D4Dᴄ&#F94D4Dʜ&#F94E4Eᴀ&#F94E4Eɴ&#F84E4Eᴛ&#F84F4Fꜱ &#F75050%list% &#F65151ʀ&#F65252ᴇ&#F65252ǫ&#F55252ᴜ&#F55353ɪ&#F55353ʀ&#F45454ᴇ&#F45454ᴅ"
     );
+    public static Message TOO_MANY_SPAWNERS = Message.of(
+            "%prefix% &#F31B1Bʏ&#F31B1Bᴏ&#F31C1Cᴜ &#F31C1Cᴄ&#F21D1Dᴀ&#F21D1Dɴ&#F21D1D'&#F21D1Dᴛ &#F21E1Eꜱ&#F21E1Eᴛ&#F21F1Fᴀ&#F11F1Fᴄ&#F11F1Fᴋ &#F12020ᴍ&#F12020ᴏ&#F12121ʀ&#F12121ᴇ &#F02121ᴛ&#F02222ʜ&#F02222ᴀ&#F02222ɴ &#F02323%number% &#EF2424ꜱ&#EF2525ᴘ&#EF2525ᴀ&#EF2525ᴡ&#EF2525ɴ&#EF2626ᴇ&#EF2626ʀ&#EE2626ꜱ&#EE2727. &#EE2727ᴜ&#EE2828ᴘ&#EE2828ɢ&#EE2828ʀ&#EE2929ᴀ&#ED2929ᴅ&#ED2929ᴇ &#ED2A2Aʏ&#ED2A2Aᴏ&#ED2A2Aᴜ&#ED2B2Bʀ &#EC2B2Bʀ&#EC2C2Cᴀ&#EC2C2Cɴ&#EC2C2Cᴋ &#EC2D2Dꜰ&#EC2D2Dᴏ&#EC2E2Eʀ &#EB2E2Eꜱ&#EB2E2Eᴛ&#EB2F2Fᴀ&#EB2F2Fᴄ&#EB2F2Fᴋ &#EB3030ᴍ&#EA3030ᴏ&#EA3131ʀ&#EA3131ᴇ &#EA3232ꜱ&#EA3232ᴘ&#EA3232ᴀ&#EA3232ᴡ&#E93333ɴ&#E93333ᴇ&#E93333ʀ&#E93434ꜱ&#E93434!"
+    );
 
     public static void sendMessage(CommandSender sender, Message msg, HashMap<String, String> mapPlaceholders) {
         for(Map.Entry<String, String> entry : mapPlaceholders.entrySet()) {
-            String value = Settings.Placeholders.FORCE_SMALL_CAPS ?
+            String value = Settings.Placeholders.isFORCE_SMALL_CAPS() ?
                     Utility.toSmallCaps(entry.getValue()) :
                     entry.getValue();
             msg = msg.replace(entry.getKey(), value);

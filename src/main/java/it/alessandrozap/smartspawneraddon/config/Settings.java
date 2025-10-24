@@ -23,6 +23,15 @@ public class Settings extends StaticConfig {
         }
     }
 
+    @Key("settings")
+    public static class SpawnerSettings {
+        @Comment("Set the spawners limit")
+        @Getter
+        private static HashMap<String, Integer> limits = new HashMap<>() {{
+            put("default", -1);
+        }};
+    }
+
     @Comment("List of hooks available")
     public static class Hooks {
         @Comment("Hook to ExcellentEnchants")
