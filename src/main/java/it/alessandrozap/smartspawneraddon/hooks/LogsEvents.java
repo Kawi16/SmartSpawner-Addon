@@ -3,6 +3,7 @@ package it.alessandrozap.smartspawneraddon.hooks;
 import github.nighter.smartspawner.SmartSpawner;
 import github.nighter.smartspawner.api.events.*;
 import github.nighter.smartspawner.spawner.properties.SpawnerData;
+import it.alessandrozap.smartspawneraddon.SmartSpawnerAddon;
 import it.alessandrozap.smartspawneraddon.config.Settings;
 import it.alessandrozap.smartspawneraddon.discord.DiscordWebhook;
 import it.alessandrozap.smartspawneraddon.objects.ActionType;
@@ -17,15 +18,19 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.plugin.Plugin;
 
-public class CoreProtectHook implements ListenerImpl {
-    @Override
+public class LogsEvents implements ListenerImpl {
+    /*@Override
     public String[] dependencies() {
         return new String[] {"CoreProtect"};
-    }
+    }*/
+    private static final Plugin plugin = SmartSpawnerAddon.getInstance().getServer().getPluginManager().getPlugin("CoreProtect");
+    private static final boolean coreProtectEnabled = plugin != null && plugin.isEnabled();
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onSpawnPlace(SpawnerPlaceEvent e) {
+        DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.PLACE);
         if(!check(e)) return;
         Location loc = e.getLocation();
         BlockData blockData = loc.getBlock().getBlockData();
@@ -39,24 +44,28 @@ public class CoreProtectHook implements ListenerImpl {
 
     @EventHandler (priority = EventPriority.MONITOR)
     public void onSpawnerBreak(SpawnerPlayerBreakEvent e) {
+        DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.REMOVE);
         if(!check(e)) return;
         logAction(e.getPlayer(), e.getLocation(), e.getQuantity(), ActionType.REMOVE);
     }
 
     @EventHandler (priority = EventPriority.MONITOR)
     public void onSpawnerStack(SpawnerStackEvent e) {
+        DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.STACK);
         if(!check(e)) return;
         logAction(e.getPlayer(), e.getLocation(), e.getNewQuantity() - e.getOldQuantity(), ActionType.STACK);
     }
 
     @EventHandler (priority = EventPriority.MONITOR)
     public void onSpawnerRemove(SpawnerRemoveEvent e) {
+        DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.REMOVE);
         if(!check(e)) return;
         logAction(e.getPlayer(), e.getLocation(), e.getChangeAmount(), ActionType.REMOVE);
     }
 
     @EventHandler (priority = EventPriority.MONITOR)
     public void onSpawnerEggChange(SpawnerEggChangeEvent e) {
+        DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.EGGCHANGE);
         if(!check(e)) return;
         logChange(e.getPlayer(), e.getLocation(), e.getOldEntityType(), e.getNewEntityType());
     }
@@ -93,7 +102,6 @@ public class CoreProtectHook implements ListenerImpl {
                 CoreProtect.getInstance().getAPI().logRemoval(actor, block.getState());
                 break;
         }
-        DiscordWebhook.sendEmbed(player, location, type);
     }
 
     private void logChange(Player player, Location location, EntityType oldEntityType, EntityType newEntityType) {
@@ -118,7 +126,7 @@ public class CoreProtectHook implements ListenerImpl {
     }
 
     private <T extends Event & Cancellable> boolean check(T e) {
-        if (!CoreProtect.getInstance().isEnabled() || !Settings.Hooks.CoreProtect.isEnabled()) return false;
+        if (!coreProtectEnabled || !CoreProtect.getInstance().isEnabled() || !Settings.Hooks.CoreProtect.isEnabled()) return false;
         return !e.isCancelled();
     }
 }
