@@ -16,11 +16,13 @@ import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DiscordWebhook {
 
-    public static void sendEmbed(Player player, Location location, ActionType type) {
+    public static void sendEmbed(Player player, Location location, ActionType type, HashMap<String, String> placeholders) {
         if(!Settings.Hooks.Discord.Webhooks.isEnabled()) return;
         String webhookURL = Discord.Webhooks.getUrl();
         if(webhookURL == null || webhookURL.isEmpty()) return;
@@ -31,14 +33,18 @@ public class DiscordWebhook {
                 try {
                     List<String> description = new ArrayList<>();
 
-                    for (String str : Discord.Webhooks.getLines()) {
-                        description.add(str.replaceAll("%player%", player != null ? player.getName() : "Unknown")
+                    for (String str : Discord.Webhooks.getActions().get(type.name().toLowerCase()).getDescription()) {
+                        String s = str.replaceAll("%player%", player != null ? player.getName() : "Unknown")
                                 .replaceAll("%action%", type.name())
                                 .replaceAll("%world%", location.getWorld().getName())
                                 .replaceAll("%x%", String.valueOf(location.getBlockX()))
                                 .replaceAll("%y%", String.valueOf(location.getBlockY()))
-                                .replaceAll("%z%", String.valueOf(location.getBlockZ()))
-                        );
+                                .replaceAll("%z%", String.valueOf(location.getBlockZ()));
+                        for(Map.Entry<String, String> entry : placeholders.entrySet()) {
+                            s = s.replaceAll(entry.getKey(), entry.getValue());
+                        }
+                        if (s.matches(".*%\\w+%.*")) continue;
+                        description.add(s);
                     }
 
                     URL url = new URL(Discord.Webhooks.getUrl());
@@ -85,6 +91,10 @@ public class DiscordWebhook {
                 }
             }
         }.runTaskAsynchronously(SmartSpawnerAddon.getInstance());
+    }
+
+    public static void sendEmbed(Player player, Location location, ActionType type) {
+        sendEmbed(player, location, type, new HashMap<>());
     }
 
     private static String escapeJson(String text) {

@@ -20,6 +20,7 @@ public class ActionProvider implements TypeProvider<Action> {
         Action action = new Action();
 
         action.setEnabled(section.getBoolean("enabled"));
+        action.setDescription(section.getStringList("description"));
         action.setColor(section.getString("color").replaceAll("#", ""));
 
         return action;
@@ -31,6 +32,7 @@ public class ActionProvider implements TypeProvider<Action> {
         Action actionConfig = context.getObject();
 
         section.put("enabled", actionConfig.isEnabled());
+        section.put("description", actionConfig.getDescription());
         section.put("color", actionConfig.getColor().replaceAll("#", ""));
 
         return section;

@@ -70,22 +70,63 @@ public class Settings extends StaticConfig {
                 })
                 @Getter
                 private static String title = "Spawner %action%";
-                @Getter
+                /*@Getter
                 private static List<String> lines = new ArrayList<>(List.of(
                         "**Player:** %player%",
                         "**Action:** %action%",
                         "**Location:** %world% %x% %y% %z%"
-                ));
+                ));*/
                 @Getter
                 private static HashMap<String, Action> actions = new HashMap<>() {{
-                    put("break", new Action(true, "E53935"));
-                    put("eggchange", new Action(true, "9C27B0"));
-                    put("expclaim", new Action(true, "9C27B0"));
-                    put("explode", new Action(true, "FF5722"));
-                    put("place", new Action(true, "4CAF50"));
-                    put("remove", new Action(true, "607D8B"));
-                    put("sell", new Action(true, "9C27B0"));
-                    put("stack", new Action(true, "FFC107"));
+                    put("break", new Action(true, "E53935", new ArrayList<>() {{
+                        add("**Player:** %player%");
+                        add("**Action:** %action%");
+                        add("**Location:** %world% %x% %y% %z%");
+                        add("**Quantity:** %quantity%");
+                    }}));
+                    put("eggchange", new Action(true, "9C27B0", new ArrayList<>() {{
+                        add("**Player:** %player%");
+                        add("**Action:** %action%");
+                        add("**Location:** %world% %x% %y% %z%");
+                        add("**Old Egg:** %oldegg%");
+                        add("**New Egg:** %newegg%");
+                    }}));
+                    put("expclaim", new Action(true, "9C27B0", new ArrayList<>() {{
+                        add("**Player:** %player%");
+                        add("**Action:** %action%");
+                        add("**Location:** %world% %x% %y% %z%");
+                        add("**EXP:** %exp%");
+                    }}));
+                    put("explode", new Action(true, "FF5722", new ArrayList<>() {{
+                        add("**Player:** %player%");
+                        add("**Action:** %action%");
+                        add("**Location:** %world% %x% %y% %z%");
+                    }}));
+                    put("place", new Action(true, "4CAF50", new ArrayList<>() {{
+                        add("**Player:** %player%");
+                        add("**Action:** %action%");
+                        add("**Location:** %world% %x% %y% %z%");
+                        add("**Quantity:** %quantity%");
+                    }}));
+                    put("remove", new Action(true, "607D8B", new ArrayList<>() {{
+                        add("**Player:** %player%");
+                        add("**Action:** %action%");
+                        add("**Location:** %world% %x% %y% %z%");
+                        add("**Quantity:** %quantity%");
+                    }}));
+                    put("sell", new Action(true, "9C27B0", new ArrayList<>() {{
+                        add("**Player:** %player%");
+                        add("**Action:** %action%");
+                        add("**Location:** %world% %x% %y% %z%");
+                        add("**Money:** %money%");
+                        add("**Items:** %items%");
+                    }}));
+                    put("stack", new Action(true, "FFC107", new ArrayList<>() {{
+                        add("**Player:** %player%");
+                        add("**Action:** %action%");
+                        add("**Location:** %world% %x% %y% %z%");
+                        add("**Quantity:** %quantity%");
+                    }}));
                 }};
             }
         }

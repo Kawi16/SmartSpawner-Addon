@@ -18,7 +18,11 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+
+import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class LogsEvents implements ListenerImpl {
     /*@Override
@@ -30,7 +34,10 @@ public class LogsEvents implements ListenerImpl {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onSpawnPlace(SpawnerPlaceEvent e) {
-        DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.PLACE);
+        if(e.isCancelled()) return;
+        DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.PLACE, new HashMap<>() {{
+            put("%quantity%", String.valueOf(e.getQuantity()));
+        }});
         if(!check(e)) return;
         Location loc = e.getLocation();
         BlockData blockData = loc.getBlock().getBlockData();
@@ -44,28 +51,41 @@ public class LogsEvents implements ListenerImpl {
 
     @EventHandler (priority = EventPriority.MONITOR)
     public void onSpawnerBreak(SpawnerPlayerBreakEvent e) {
-        DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.REMOVE);
+        if(e.isCancelled()) return;
+        DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.REMOVE, new HashMap<>() {{
+            put("%quantity%", String.valueOf(e.getQuantity()));
+        }});
         if(!check(e)) return;
         logAction(e.getPlayer(), e.getLocation(), e.getQuantity(), ActionType.REMOVE);
     }
 
     @EventHandler (priority = EventPriority.MONITOR)
     public void onSpawnerStack(SpawnerStackEvent e) {
-        DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.STACK);
+        if(e.isCancelled()) return;
+        DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.STACK, new HashMap<>() {{
+            put("%quantity%", String.valueOf(e.getNewQuantity() - e.getOldQuantity()));
+        }});
         if(!check(e)) return;
         logAction(e.getPlayer(), e.getLocation(), e.getNewQuantity() - e.getOldQuantity(), ActionType.STACK);
     }
 
     @EventHandler (priority = EventPriority.MONITOR)
     public void onSpawnerRemove(SpawnerRemoveEvent e) {
-        DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.REMOVE);
+        if(e.isCancelled()) return;
+        DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.REMOVE, new HashMap<>() {{
+            put("%quantity%", String.valueOf(e.getQuantity()));
+        }});
         if(!check(e)) return;
         logAction(e.getPlayer(), e.getLocation(), e.getChangeAmount(), ActionType.REMOVE);
     }
 
     @EventHandler (priority = EventPriority.MONITOR)
     public void onSpawnerEggChange(SpawnerEggChangeEvent e) {
-        DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.EGGCHANGE);
+        if(e.isCancelled()) return;
+        DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.EGGCHANGE, new HashMap<>() {{
+            put("%oldegg%", e.getOldEntityType().name());
+            put("%newegg%", e.getNewEntityType().name());
+        }});
         if(!check(e)) return;
         logChange(e.getPlayer(), e.getLocation(), e.getOldEntityType(), e.getNewEntityType());
     }
@@ -77,7 +97,26 @@ public class LogsEvents implements ListenerImpl {
 
     @EventHandler
     public void onExpClaim(SpawnerExpClaimEvent e) {
-        DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.EXPCLAIM);
+        if(e.isCancelled()) return;
+        DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.EXPCLAIM, new HashMap<>() {{
+            put("%exp%", String.valueOf(e.getExpQuantity()));
+        }});
+    }
+
+    @EventHandler (priority = EventPriority.MONITOR)
+    public void onItemsSell(SpawnerSellEvent e) {
+        if(e.isCancelled()) return;
+        DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.SELL, new HashMap<>() {{
+            put("%money%", String.valueOf(e.getMoneyAmount()));
+            put("%items%", e.getItems().stream()
+                    .collect(Collectors.groupingBy(
+                            ItemStack::getType,
+                            Collectors.summingInt(ItemStack::getAmount)
+                    ))
+                    .entrySet().stream()
+                    .map(entry -> String.format("%dx %s", entry.getValue(), entry.getKey().name()))
+                    .collect(Collectors.joining("\n")));
+        }});
     }
 
     private void logAction(Player player, Location location, int quantity, ActionType type) {
@@ -127,6 +166,6 @@ public class LogsEvents implements ListenerImpl {
 
     private <T extends Event & Cancellable> boolean check(T e) {
         if (!coreProtectEnabled || !CoreProtect.getInstance().isEnabled() || !Settings.Hooks.CoreProtect.isEnabled()) return false;
-        return !e.isCancelled();
+        return true;
     }
 }

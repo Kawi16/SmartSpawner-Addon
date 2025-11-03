@@ -10,6 +10,7 @@ import it.alessandrozap.utilsapi.managers.listeners.ListenerImpl;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class WorldsListener implements ListenerImpl {
         }
     }
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.LOW)
     public void onSpawnerPlace(SpawnerPlaceEvent e) {
         Player player = e.getPlayer();
         int maxSize = checkStack(player);
@@ -49,7 +50,7 @@ public class WorldsListener implements ListenerImpl {
         e.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.LOW)
     public void onSpawnerStack(SpawnerStackEvent e) {
         Player player = e.getPlayer();
         int maxSize = checkStack(player);
