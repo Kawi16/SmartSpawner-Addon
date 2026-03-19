@@ -4,7 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import github.nighter.smartspawner.Scheduler;
+import github.nighter.smartspawner.api.SmartSpawnerPlugin;
+import it.alessandrozap.smartspawneraddon.SmartSpawnerAddon;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -319,7 +320,7 @@ public class UpdateChecker implements Listener {
             }
 
             if (updateAvailable && serverVersionSupported) {
-                Scheduler.runTaskLater(() -> {
+                Bukkit.getGlobalRegionScheduler().runDelayed(SmartSpawnerAddon.getInstance(), task -> {
                     sendUpdateNotification(player);
                     notifiedPlayers.put(playerId, today);
                 }, 40L);
@@ -328,7 +329,7 @@ public class UpdateChecker implements Listener {
             } else {
                 checkForUpdates().thenAccept(hasUpdate -> {
                     if (hasUpdate && serverVersionSupported) {
-                        Scheduler.runTask(() -> {
+                        Bukkit.getGlobalRegionScheduler().run(SmartSpawnerAddon.getInstance(), task -> {
                             sendUpdateNotification(player);
                             notifiedPlayers.put(playerId, today);
                         });

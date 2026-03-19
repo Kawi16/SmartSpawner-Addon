@@ -63,10 +63,10 @@ public class LogsEvents implements ListenerImpl {
     public void onSpawnerStack(SpawnerStackEvent e) {
         if(e.isCancelled()) return;
         DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.STACK, new HashMap<>() {{
-            put("%quantity%", String.valueOf(e.getNewQuantity() - e.getOldQuantity()));
+            put("%quantity%", String.valueOf(e.getNewStackSize() - e.getOldStackSize()));
         }});
         if(!check(e)) return;
-        logAction(e.getPlayer(), e.getLocation(), e.getNewQuantity() - e.getOldQuantity(), ActionType.STACK);
+        logAction(e.getPlayer(), e.getLocation(), e.getNewStackSize() - e.getOldStackSize(), ActionType.STACK);
     }
 
     @EventHandler (priority = EventPriority.MONITOR)
@@ -99,7 +99,7 @@ public class LogsEvents implements ListenerImpl {
     public void onExpClaim(SpawnerExpClaimEvent e) {
         if(e.isCancelled()) return;
         DiscordWebhook.sendEmbed(e.getPlayer(), e.getLocation(), ActionType.EXPCLAIM, new HashMap<>() {{
-            put("%exp%", String.valueOf(e.getExpQuantity()));
+            put("%exp%", String.valueOf(e.getExpAmount()));
         }});
     }
 
