@@ -54,7 +54,7 @@ public class WorldsListener implements ListenerImpl {
     public void onSpawnerStack(SpawnerStackEvent e) {
         Player player = e.getPlayer();
         int maxSize = checkStack(player);
-        if(maxSize != -1 && maxSize < e.getNewQuantity()) {
+        if(maxSize != -1 && maxSize < e.getNewStackSize()) {
             e.setCancelled(true);
             final int finalMaxSize = maxSize;
             LocaleAddon.sendMessage(player, LocaleAddon.TOO_MANY_SPAWNERS, new HashMap<>() {{
