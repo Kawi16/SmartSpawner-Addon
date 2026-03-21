@@ -2,6 +2,7 @@ package it.alessandrozap.smartspawneraddon.config;
 
 import it.alessandrozap.smartspawneraddon.SmartSpawnerAddon;
 import it.alessandrozap.smartspawneraddon.objects.Action;
+import it.alessandrozap.smartspawneraddon.objects.SpawnerMultiplier;
 import lombok.Getter;
 import net.j4c0b3y.api.config.StaticConfig;
 
@@ -21,6 +22,16 @@ public class Settings extends StaticConfig {
         public static class Earn_Percentage {
             @Getter private static boolean enabled = false;
             @Getter private static int percentage = 100;
+            @Comment("If this boolean is true, the plugin will take the multipliers below")
+            @Getter private static boolean perSpawnerSize = false;
+            @Comment({
+                    "Set the spawners multiplier basing on stack size. The percentage works in percentual",
+                    "Use ALL for apply it to all mobs."
+            })
+            @Getter
+            private static HashMap<String, SpawnerMultiplier> multipliers = new HashMap<>() {{
+                put("PIG1", new SpawnerMultiplier("PIG", 200, 10));
+            }};
         }
     }
 

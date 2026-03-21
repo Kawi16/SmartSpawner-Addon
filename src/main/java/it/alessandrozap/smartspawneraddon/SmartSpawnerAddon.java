@@ -3,9 +3,11 @@ package it.alessandrozap.smartspawneraddon;
 import it.alessandrozap.smartspawneraddon.config.Settings;
 import it.alessandrozap.smartspawneraddon.config.SettingsWorld;
 import it.alessandrozap.smartspawneraddon.config.providers.ActionProvider;
+import it.alessandrozap.smartspawneraddon.config.providers.SpawnerMultiplierProvider;
 import it.alessandrozap.smartspawneraddon.config.providers.WorldProvider;
 import it.alessandrozap.smartspawneraddon.hooks.ESGUIHook;
 import it.alessandrozap.smartspawneraddon.objects.Action;
+import it.alessandrozap.smartspawneraddon.objects.SpawnerMultiplier;
 import it.alessandrozap.smartspawneraddon.objects.World;
 import it.alessandrozap.smartspawneraddon.utils.versioning.UpdateChecker;
 import it.alessandrozap.utilsapi.UtilsAPI;
@@ -55,6 +57,7 @@ public final class SmartSpawnerAddon extends JavaPlugin {
 
         configHandler.bind(World.class, new WorldProvider());
         configHandler.bind(Action.class, new ActionProvider());
+        configHandler.bind(SpawnerMultiplier.class, new SpawnerMultiplierProvider());
 
         configSettings.load();
         localeAddon.load();
